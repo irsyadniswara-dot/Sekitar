@@ -19,7 +19,7 @@ const pool = new Pool({
   user: 'postgres',
   host: 'db.mrhpghbhkccuodwncvkl.supabase.co',
   database: 'postgres',
-  password: '2008Raiirsyad//', // INGAT: Anda harus MENGGANTI 'your_password' dengan password Supabase Anda yang sebenarnya!
+  password: '@db.mrhpghbhkccuodwncvkl.supabase.co:5432/postgres', // INGAT: Anda harus MENGGANTI 'your_password' dengan password Supabase Anda yang sebenarnya!
   port: 5432,
 });
 
