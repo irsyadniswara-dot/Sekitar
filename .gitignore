@@ -1,0 +1,6 @@
+# Ignore Node.js dependency folders
+/node_modules
+/backend/node_modules
+
+# Environment variables
+.env

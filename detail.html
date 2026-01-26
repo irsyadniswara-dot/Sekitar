@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Barang - SEKITAR</title>
+    <meta name="description" content="Lihat detail produk barang bekas atau lokal yang tersedia di SEKITAR. Hubungi penjual sekarang!">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="icon.png" type="image/png">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <img src="logo.png" alt="Sekitar Logo" class="navbar-logo">
+            </a>
+            <div class="navbar-actions">
+                <a href="jual.html" class="btn">Jual Barang</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="productDetail" class="product-detail-container">
+            <!-- Product detail content will be loaded here by JavaScript -->
+            <p>Memuat detail produk...</p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-section">
+                <h4>Informasi</h4>
+                <ul>
+                    <li><a href="tentang.html">Tentang Kami</a></li>
+                    <li><a href="privacy.html">Kebijakan Privasi</a></li>
+                    <li><a href="terms.html">Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Ikuti Kami</h4>
+                <div class="social-links">
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://twitter.com" target="_blank" aria-label="X / Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="mailto:info@sekitar.com" aria-label="Email Kontak"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SEKITAR. Semua Hak Dilindungi.</p>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        // Separate script block for detail page to avoid conflicts with homepage script.js
+        document.addEventListener('DOMContentLoaded', () => {
+            const productDetailContainer = document.getElementById('productDetail');
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            if (!productId) {
+                productDetailContainer.innerHTML = '<p>Produk tidak ditemukan. Kembali ke <a href="index.html">beranda</a>.</p>';
+                return;
+            }
+
+            // Get products from localStorage or fall back to data.js
+            const allProducts = JSON.parse(localStorage.getItem('products')) || products;
+            const product = allProducts.find(p => p.id === productId);
+
+            if (!product) {
+                productDetailContainer.innerHTML = '<p>Produk tidak ditemukan. Kembali ke <a href="index.html">beranda</a>.</p>';
+                return;
+            }
+
+            productDetailContainer.innerHTML = `
+                <div class="product-detail-image">
+                    <img src="${product.imageUrl}" alt="${product.name}">
+                </div>
+                <div class="product-detail-info">
+                    <span class="category">${product.category}</span>
+                    <h1>${product.name}</h1>
+                    <p><strong>Harga:</strong> <span class="price">Rp ${product.price.toLocaleString('id-ID')}</span></p>
+                    <p><strong>Lokasi:</strong> ${product.location}</p>
+                    <p><strong>Deskripsi:</strong> ${product.description}</p>
+                    <p><strong>Penjual:</strong> ${product.owner}</p>
+                    <a href="#" class="btn-chat" id="chatSellerBtn">
+                        <i class="fas fa-comment-dots"></i> Chat Penjual
+                    </a>
+                    <div class="purchase-actions" style="margin-top: 20px;">
+                        <div class="quantity-control" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                            <label for="quantity">Jumlah:</label>
+                            <input type="number" id="quantity" value="1" min="1" style="width: 60px; padding: 8px; border: 1px solid var(--border-color); border-radius: 5px;">
+                        </div>
+                        <button class="btn-buy" id="buyNowBtn" style="background-color: var(--primary-color); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem;">
+                            Beli Sekarang
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Handle chat seller button click
+            document.getElementById('chatSellerBtn').addEventListener('click', (event) => {
+                event.preventDefault();
+                alert(`Anda akan memulai chat dengan ${product.owner} mengenai ${product.name}. Fitur chat sesungguhnya akan hadir di versi mendatang!`);
+            });
+
+            // Handle buy now button click
+            document.getElementById('buyNowBtn').addEventListener('click', () => {
+                const quantity = parseInt(document.getElementById('quantity').value, 10);
+
+                if (isNaN(quantity) || quantity <= 0) {
+                    alert('Jumlah barang harus lebih dari 0.');
+                    return;
+                }
+
+                if (confirm(`Anda yakin ingin membeli ${quantity} unit ${product.name} seharga Rp ${(product.price * quantity).toLocaleString('id-ID')}?`)) {
+                    // Simulate purchase: Remove the product from localStorage
+                    let allProducts = JSON.parse(localStorage.getItem('products')) || products;
+                    allProducts = allProducts.filter(p => p.id !== productId);
+                    localStorage.setItem('products', JSON.stringify(allProducts));
+
+                    alert(`Berhasil membeli ${quantity} unit ${product.name}!`);
+                    window.location.href = 'index.html'; // Redirect to homepage
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEKITAR - Jual Beli Barang Lokal di Sekitarmu</title>
+    <meta name="description" content="SEKITAR: Platform jual beli barang lokal, barang rumah tangga, dan barang bekas di sekitar Anda. Cepat, mudah, terpercaya.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts - Inter for a professional sans-serif look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="icon.png" type="image/png">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <img src="logo.png" alt="Sekitar Logo" class="navbar-logo">
+            </a>
+            <div class="navbar-actions">
+                <a href="jual.html" class="btn">Jual Barang</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Temukan barang lokal terbaik, tepat di sekitarmu.</h1>
+                <p>Jual beli mudah, tanpa ribet, dari tetangga untuk tetangga.</p>
+            </div>
+        </section>
+
+        <section class="controls-section container">
+            <div class="search-controls">
+                <input type="text" id="searchInput" placeholder="Cari barang (misal: meja, kipas, buku)...">
+                <select id="categoryFilter">
+                    <option value="">Semua Kategori</option>
+                    <option value="Perabotan">Perabotan</option>
+                    <option value="Elektronik">Elektronik</option>
+                    <option value="Dapur">Dapur</option>
+                    <option value="Buku">Buku</option>
+                    <option value="Penyimpanan">Penyimpanan</option>
+                    <option value="Olahraga">Olahraga</option>
+                    <option value="Dekorasi">Dekorasi</option>
+                    <option value="Pembersih">Pembersih</option>
+                </select>
+                <select id="sortOrder">
+                    <option value="default">Urutkan</option>
+                    <option value="asc">Harga Termurah</option>
+                    <option value="desc">Harga Termahal</option>
+                </select>
+            </div>
+
+            <div id="productGrid" class="product-grid">
+                <!-- Skeleton loading cards will be injected here initially -->
+                <div class="skeleton-card">
+                    <div class="skeleton-card-image"></div>
+                    <div class="skeleton-card-content">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line text"></div>
+                        <div class="skeleton-line price"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card">
+                    <div class="skeleton-card-image"></div>
+                    <div class="skeleton-card-content">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line text"></div>
+                        <div class="skeleton-line price"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card">
+                    <div class="skeleton-card-image"></div>
+                    <div class="skeleton-card-content">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line text"></div>
+                        <div class="skeleton-line price"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card">
+                    <div class="skeleton-card-image"></div>
+                    <div class="skeleton-card-content">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line text"></div>
+                        <div class="skeleton-line price"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="noResultsMessage" class="no-results" style="display: none;">
+                Maaf, tidak ada barang yang ditemukan dengan kriteria tersebut. Coba cari yang lain yuk!
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-section">
+                <h4>Informasi</h4>
+                <ul>
+                    <li><a href="tentang.html">Tentang Kami</a></li>
+                    <li><a href="privacy.html">Kebijakan Privasi</a></li>
+                    <li><a href="terms.html">Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Ikuti Kami</h4>
+                <div class="social-links">
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://twitter.com" target="_blank" aria-label="X / Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="mailto:info@sekitar.com" aria-label="Email Kontak"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SEKITAR. Semua Hak Dilindungi.</p>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

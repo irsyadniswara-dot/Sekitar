@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jual Barang - SEKITAR</title>
+    <meta name="description" content="Jual barang bekas, barang rumah tangga, atau barang lokal Anda dengan mudah di SEKITAR. Cepat, tanpa ribet.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="icon.png" type="image/png">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <img src="logo.png" alt="Sekitar Logo" class="navbar-logo">
+            </a>
+            <div class="navbar-actions">
+                <a href="jual.html" class="btn">Jual Barang</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="sell-form-container">
+            <h1>Pasang Iklan Barangmu di SEKITAR</h1>
+            <p style="text-align: center; margin-bottom: 30px; color: var(--secondary-color);">Isi detail barangmu di bawah ini. Mudah dan cepat!</p>
+            
+            <form id="sellForm" action="#" method="post">
+                <div class="form-group">
+                    <label for="itemName">Nama Barang</label>
+                    <input type="text" id="itemName" name="itemName" placeholder="Contoh: Meja Lipat Bekas" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Kategori</label>
+                    <select id="category" name="category" required>
+                        <option value="">Pilih Kategori</option>
+                        <option value="Perabotan">Perabotan</option>
+                        <option value="Elektronik">Elektronik</option>
+                        <option value="Dapur">Dapur</option>
+                        <option value="Buku">Buku</option>
+                        <option value="Penyimpanan">Penyimpanan</option>
+                        <option value="Olahraga">Olahraga</option>
+                        <option value="Dekorasi">Dekorasi</option>
+                        <option value="Pembersih">Pembersih</option>
+                        <option value="Lain-lain">Lain-lain</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="price">Harga (Rp)</label>
+                    <input type="number" id="price" name="price" placeholder="Contoh: 75000" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">Lokasi</label>
+                    <input type="text" id="location" name="location" placeholder="Contoh: Jakarta Selatan" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Deskripsi Barang</label>
+                    <textarea id="description" name="description" placeholder="Ceritakan kondisi, fungsi, dan fitur barangmu..." rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image">Unggah Foto Barang</label>
+                    <input type="file" id="image" name="image" accept="image/*">
+                    <div class="image-preview-container" style="margin-top: 10px; border: 1px solid var(--border-color); padding: 5px; border-radius: 5px;">
+                        <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 100%; height: auto; display: none;">
+                        <p id="imagePreviewText" style="text-align: center; color: var(--secondary-color);">Tidak ada gambar yang dipilih</p>
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit">Pasang Iklan Sekarang</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-section">
+                <h4>Informasi</h4>
+                <ul>
+                    <li><a href="tentang.html">Tentang Kami</a></li>
+                    <li><a href="privacy.html">Kebijakan Privasi</a></li>
+                    <li><a href="terms.html">Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Ikuti Kami</h4>
+                <div class="social-links">
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://twitter.com" target="_blank" aria-label="X / Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="mailto:info@sekitar.com" aria-label="Email Kontak"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SEKITAR. Semua Hak Dilindungi.</p>
+        </div>
+    </footer>
+<script src="data.js"></script>
+<script>
+    const imageInput = document.getElementById('image');
+    const imagePreview = document.getElementById('imagePreview');
+    const imagePreviewText = document.getElementById('imagePreviewText');
+    let uploadedImageUrl = ''; // To store the base64 image URL
+
+    imageInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+                imagePreviewText.style.display = 'none';
+                uploadedImageUrl = e.target.result; // Store the base64 URL
+            };
+            reader.readAsDataURL(file);
+        } else {
+            imagePreview.src = '#';
+            imagePreview.style.display = 'none';
+            imagePreviewText.style.display = 'block';
+            uploadedImageUrl = '';
+        }
+    });
+
+    document.getElementById('sellForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const itemName = document.getElementById('itemName').value;
+        const category = document.getElementById('category').value;
+        const price = parseInt(document.getElementById('price').value, 10);
+        const location = document.getElementById('location').value;
+        const description = document.getElementById('description').value;
+
+        // Create a new product object
+        const newProduct = {
+            id: 'product-' + Date.now(),
+            name: itemName,
+            category: category,
+            price: price,
+            location: location,
+            description: description,
+            imageUrl: uploadedImageUrl || 'https://via.placeholder.com/300x200.png?text=Gambar+Produk', // Use uploaded image or placeholder
+            owner: 'Pengguna Baru'
+        };
+
+        // Get existing products from localStorage or initialize with data.js products
+        let allProducts = JSON.parse(localStorage.getItem('products')) || products;
+
+        // Add the new product
+        allProducts.unshift(newProduct); // Add to the beginning of the array
+
+        // Save updated products to localStorage
+        localStorage.setItem('products', JSON.stringify(allProducts));
+
+        // Redirect to homepage to see the new product
+        alert('Produk Anda telah berhasil ditambahkan!');
+        window.location.href = 'index.html';
+    });
+</script>
+</body>
+</html>
