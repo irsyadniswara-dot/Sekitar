@@ -9,46 +9,15 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-const SECRET_KEY = process.env.SECRET_KEY || 'your_jwt_secret_key'; // Use a strong, random key in production!
 
-// File paths for data storage
-const usersFilePath = path.join(__dirname, 'data', 'users.json');
-
-// Helper functions for reading/writing user data
-const readUsers = () => {
-    if (!fs.existsSync(usersFilePath)) {
-        return [];
-    }
-    const data = fs.readFileSync(usersFilePath);
-    return JSON.parse(data);
-};
-
-const writeUsers = (users) => {
-    fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
-};
-
-// Middleware
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// Create 'uploads' directory if it doesn't exist
-const uploadsDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir);
-}
-
-// Serve static uploaded files
-app.use('/uploads', express.static(uploadsDir));
-
-// Basic route
+// --- START: Simple test route to verify root access ---
 app.get('/', (req, res) => {
-    res.send('SEKITAR Backend Server is running!');
+    console.log('Root path (/) accessed!'); // Add this log
+    res.send('SEKITAR Backend Server is running! (Root)'); // Modify response
 });
+// --- END: Simple test route ---
 
-// User Registration
-app.post('/api/register', async (req, res) => {
+const PORT = process.env.PORT || 3000;
     const { username, password } = req.body;
 
     if (!username || !password) {
