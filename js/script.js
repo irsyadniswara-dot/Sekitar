@@ -1,11 +1,36 @@
 // script.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Function to load header and footer
+    const loadHeaderFooter = () => {
+        const headerPlaceholder = document.getElementById('header-placeholder');
+        const footerPlaceholder = document.getElementById('footer-placeholder');
+
+        if (headerPlaceholder) {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(data => {
+                    headerPlaceholder.innerHTML = data;
+                });
+        }
+
+        if (footerPlaceholder) {
+            fetch('footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    footerPlaceholder.innerHTML = data;
+                });
+        }
+    };
+
+    // Load them on DOM content loaded
+    loadHeaderFooter();
+
     const API_URL = 'http://localhost:3000'; // URL backend server Anda
 
     // Clear all products from localStorage when the page loads to ensure an empty state
     // This is for development/testing purposes to easily reset product data.
-    localStorage.removeItem('products');
+    // localStorage.removeItem('products');
 
     // Logika untuk halaman utama (menampilkan produk)
     if (document.getElementById('productGrid') && (window.location.pathname.includes('index.html') || window.location.pathname === '/')) {
@@ -15,22 +40,36 @@ document.addEventListener('DOMContentLoaded', () => {
         const sortOrder = document.getElementById('sortOrder');
         const noResultsMessage = document.getElementById('noResultsMessage');
 
-        let allProducts = []; // Array untuk menyimpan semua produk dari API
+        let allProducts = []; // Array untuk menyimpan semua produk
 
         const loadProducts = async () => {
-            // Tampilkan skeleton loader
             showSkeletonLoaders();
+            let productsFromStorage = JSON.parse(localStorage.getItem('products'));
+
+            if (!productsFromStorage || productsFromStorage.length === 0) {
+                // If localStorage is empty, use initial data from data.js
+                // 'products' is available globally from data.js
+                productsFromStorage = products;
+                localStorage.setItem('products', JSON.stringify(productsFromStorage));
+            }
+            allProducts = productsFromStorage; // Use localStorage data initially
+
             try {
-                // Panggil API untuk mendapatkan produk
                 const response = await fetch(`${API_URL}/products`);
                 if (!response.ok) {
+                    // If API fails, check if it's a 404 or network error.
+                    // For now, if API fails, we continue with localStorage data.
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                allProducts = await response.json();
+                const apiProducts = await response.json();
+                if (apiProducts && apiProducts.length > 0) {
+                    allProducts = apiProducts;
+                    localStorage.setItem('products', JSON.stringify(allProducts)); // Update localStorage with fresh API data
+                }
                 renderProducts(allProducts);
             } catch (error) {
-                console.error("Gagal memuat produk:", error);
-                productGrid.innerHTML = `<p class="error-message">Gagal memuat produk. Pastikan server backend berjalan.</p>`;
+                console.warn("Gagal memuat produk dari API, menggunakan data dari localStorage.", error);
+                renderProducts(allProducts); // Render with data from localStorage
             }
         };
 
